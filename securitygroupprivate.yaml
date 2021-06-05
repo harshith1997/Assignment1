@@ -1,0 +1,35 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Security group for instances in private subnet it will allow  ssh from SG in public subnet"
+
+Parameters:
+  SecurityGroupForPrivateSubnet:
+    Description: "Enter the of SG which will attach to instance in private subnet"
+    Type: String
+    Default: PrivateSubnetSg
+
+Resources:
+  SGPrivate:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Ref SecurityGroupForPrivateSubnet
+      GroupDescription: This will allow SSh only from Sg which is attached to instance in public subnet
+      VpcId: !ImportValue VPCID
+      SecurityGroupIngress:
+        - SourceSecurityGroupId: !ImportValue PublicSGID
+          SourceSecurityGroupOwnerId: !Ref AWS::AccountId
+          FromPort: 22
+          IpProtocol: "tcp"
+          ToPort: 22
+      Tags:
+        - Key: Name
+          Value: SGPrivate        
+
+Outputs:
+  Privatesg:
+    Description: Private SG ID
+    Value: !GetAtt 
+            - SGPrivate
+            - GroupId
+    Export: 
+      Name: PrivateSGID   

@@ -1,0 +1,39 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Security group allow ssh from public internet"
+
+Parameters:
+  SecurityGroupForPublicSubnet:
+    Description: "Enter the of SG which will attach to instance in public subnet"
+    Type: String
+    Default: PublicSubnetSg
+
+Resources:
+  SGPublic:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Ref SecurityGroupForPublicSubnet
+      GroupDescription: This will allow SSh from public network
+      VpcId: !ImportValue VPCID
+      SecurityGroupIngress:
+        - CidrIp: "0.0.0.0/0"
+          FromPort: 22
+          IpProtocol: "tcp"
+          ToPort: 22
+
+        - CidrIpv6: "::/0"
+          FromPort: 22
+          IpProtocol: "tcp"
+          ToPort: 22
+      Tags:
+        - Key: Name
+          Value: SGPublic
+
+Outputs:
+  PublicSg:
+    Description: Public SG ID
+    Value: !GetAtt 
+            - SGPublic
+            - GroupId
+    Export: 
+      Name: PublicSGID

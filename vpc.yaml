@@ -1,0 +1,203 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: "This stack create *VPC *1PrivateSubnet *1PublicSubnet *1IGW "
+
+Parameters: 
+  VPCCidr:
+    Description: "Enter VPCCidr Range"
+    Type: String
+    Default: 172.32.0.0/16
+    AllowedPattern:  '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})' 
+
+  VPCName:
+    Description: "Enter VPC Name"
+    Type: String
+    Default: ValaxyVPC 
+
+  PublicSubnetCidr:
+    Description: "Enter Public Subnet Cidr Range"
+    Type: String
+    Default: 172.32.1.0/24
+    AllowedPattern:  '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})' 
+
+  PublicSubnetName:
+    Description: "Enter Public Subnet Name"
+    Type: String
+    Default: PublicSubnet0 
+
+  PrivateSubnetCidr:
+    Description: "Enter Private Subnet Cidr Range"
+    Type: String
+    Default: 172.32.2.0/24
+    AllowedPattern:  '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+
+  PrivateSubnetName:
+    Description: "Enter Private Subnet Name"
+    Type: String
+    Default: PrivateSubnet0
+  
+  IGWName:
+    Description: "Enter InternetGateway Name"
+    Type: String
+    Default: ValaxyIGW 
+      
+
+Resources: 
+  ValaxyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Ref VPCName
+
+  PublicSubnet0:
+    Type: AWS::EC2::Subnet
+    Properties:
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs
+      VpcId: !Ref ValaxyVPC
+      CidrBlock: !Ref PublicSubnetCidr
+      Tags:
+        - Key: Name
+          Value: !Ref PublicSubnetName
+
+  PrivateSubnet0:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select 
+        - 1
+        - !GetAZs 
+      VpcId: !Ref ValaxyVPC
+      CidrBlock: !Ref PrivateSubnetCidr
+      Tags:
+        - Key: Name
+          Value: !Ref PrivateSubnetName        
+
+  ValaxyIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref IGWName
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref ValaxyVPC
+      InternetGatewayId: !Ref ValaxyIGW  
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref ValaxyVPC
+      Tags:
+        - Key: Name
+          Value: ValaxyPublicRouteTable             
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref ValaxyVPC
+      Tags:
+        - Key: Name
+          Value: ValaxyPrivateRouteTable
+
+  PublicRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet0
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet0
+      RouteTableId: !Ref PrivateRouteTable
+
+  IgwRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref ValaxyIGW
+
+Outputs:
+
+  VPCID:
+    Description: Vpc ID
+    Value: !GetAtt 
+      - PublicSubnet0
+      - VpcId 
+    Export: 
+      Name: VPCID
+
+  VPCCIdr:
+    Description: VPC Cidr Value
+    Value: !GetAtt 
+      - ValaxyVPC
+      - CidrBlock
+    Export: 
+      Name: VPCCIDR
+
+  PublicAvailabilityZoneCidr:
+    Description: Public AZ Cidr
+    Value: !Ref PublicSubnetCidr
+    Export: 
+      Name: PublicAvailabilityZoneCidr
+
+  PrivateAvailabilityZoneCidr:
+    Description: Private AZ Cidr
+    Value: !Ref PrivateSubnetCidr
+    Export: 
+      Name: PrivateAvailabilityZoneCidr
+
+  PublicAvailabilityZone:
+    Description: Public AZ
+    Value: !GetAtt 
+     - PublicSubnet0
+     - AvailabilityZone
+    Export: 
+      Name: PublicAvailabilityZone
+
+  PrivateAvailabilityZone:
+    Description: Private AZ
+    Value: !GetAtt 
+     - PrivateSubnet0
+     - AvailabilityZone
+    Export: 
+      Name: PrivateAvailabilityZone    
+
+  IGWId:
+    Description: InternetGateway ID
+    Value: !Ref AttachGateway
+    Export: 
+      Name: IGWID
+
+  PrivateRouteTableID:
+    Description: Private route table ID
+    Value: !Ref PrivateRouteTable
+    Export: 
+      Name: PrivateRouteTableID
+
+  PublicRouteTableID:
+    Description: Public route table ID
+    Value: !Ref PublicRouteTable
+    Export: 
+      Name: PublicRouteTableID
+
+  PrivateSubnetID0:
+    Description: "Private subnet ID0"
+    Value: !Ref PrivateSubnet0
+    Export: 
+      Name: PrivateSubnetID0  
+
+  PublicSubnetID0:
+    Description: "Public subnet ID0"
+    Value: !Ref PublicSubnet0
+    Export: 
+      Name: PublicSubnetID0       

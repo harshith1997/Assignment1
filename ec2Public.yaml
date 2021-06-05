@@ -1,0 +1,284 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "deploy ec2 instace in the subnet you specify"
+
+Parameters: 
+  KeyName:
+    Description: "choose an existing key pair"
+    Type: AWS::EC2::KeyPair::KeyName
+
+  InstanceType:
+    Description: "select the type of instance u wanna launch"
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t1.micro
+      - t2.nano
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - t3.micro
+      - m1.small
+      - m1.medium
+      - m1.large
+      - m1.xlarge
+      - m2.xlarge
+      - m2.2xlarge
+      - m2.4xlarge
+      - m3.medium
+      - m3.large
+      - m3.xlarge
+      - m3.2xlarge
+      - m4.large
+      - m4.xlarge
+      - m4.2xlarge
+      - m4.4xlarge
+      - m4.10xlarge
+      - c1.medium
+      - c1.xlarge
+      - c3.large
+      - c3.xlarge
+      - c3.2xlarge
+      - c3.4xlarge
+      - c3.8xlarge
+      - c4.large
+      - c4.xlarge
+      - c4.2xlarge
+      - c4.4xlarge
+      - c4.8xlarge
+      - g2.2xlarge
+      - g2.8xlarge
+      - r3.large
+      - r3.xlarge
+      - r3.2xlarge
+      - r3.4xlarge
+      - r3.8xlarge
+      - i2.xlarge
+      - i2.2xlarge
+      - i2.4xlarge
+      - i2.8xlarge
+      - d2.xlarge
+      - d2.2xlarge
+      - d2.4xlarge
+      - d2.8xlarge
+      - hs1.8xlarge
+      - cr1.8xlarge
+      - cc2.8xlarge
+    ConstraintDescription: "select a valid instance type" # additional description 
+
+  PubicInstanceName:
+    Description: "enter instance Name which will be in public subnet"
+    Type: String
+
+Mappings:
+  AWSInstanceType2Arch:
+    t1.micro:
+      Arch: HVM64
+    t2.nano:  
+      Arch: HVM64
+    t2.micro:
+      Arch: HVM64
+    t2.small:
+      Arch: HVM64
+    t2.medium:
+      Arch: HVM64
+    t2.large:
+      Arch: HVM64
+    t3.micro:
+      Arch: HVM64
+    m1.small:
+      Arch: HVM64
+    m1.medium:
+      Arch: HVM64
+    m1.large:
+      Arch: HVM64
+    m1.xlarge:
+      Arch: HVM64
+    m2.xlarge:
+      Arch: HVM64
+    m2.2xlarge:
+      Arch: HVM64
+    m2.4xlarge:
+      Arch: HVM64
+    m3.medium:
+      Arch: HVM64
+    m3.large:
+      Arch: HVM64
+    m3.xlarge:
+      Arch: HVM64
+    m3.2xlarge:
+      Arch: HVM64
+    m4.large:
+      Arch: HVM64
+    m4.xlarge:
+      Arch: HVM64
+    m4.2xlarge:
+      Arch: HVM64
+    m4.4xlarge:
+      Arch: HVM64
+    m4.10xlarge:
+      Arch: HVM64
+    c1.medium:
+      Arch: HVM64
+    c1.xlarge:
+      Arch: HVM64
+    c3.large:
+      Arch: HVM64
+    c3.xlarge:
+      Arch: HVM64
+    c3.2xlarge:
+      Arch: HVM64
+    c3.4xlarge:
+      Arch: HVM64
+    c3.8xlarge:
+      Arch: HVM64
+    c4.large:
+      Arch: HVM64
+    c4.xlarge:
+      Arch: HVM64
+    c4.2xlarge:
+      Arch: HVM64
+    c4.4xlarge:
+      Arch: HVM64
+    c4.8xlarge:
+      Arch: HVM64
+    g2.2xlarge:
+      Arch: HVMG2
+    g2.8xlarge:
+      Arch: HVMG2
+    r3.large:
+      Arch: HVM64
+    r3.xlarge:
+      Arch: HVM64
+    r3.2xlarge:
+      Arch: HVM64
+    r3.4xlarge:
+      Arch: HVM64
+    r3.8xlarge:
+      Arch: HVM64
+    i2.xlarge:
+      Arch: HVM64
+    i2.2xlarge:
+      Arch: HVM64
+    i2.4xlarge:
+      Arch: HVM64
+    i2.8xlarge:
+      Arch: HVM64
+    d2.xlarge:
+      Arch: HVM64
+    d2.2xlarge:
+      Arch: HVM64
+    d2.4xlarge:
+      Arch: HVM64
+    d2.8xlarge:
+      Arch: HVM64
+    hi1.4xlarge:
+      Arch: HVM64
+    hs1.8xlarge:
+      Arch: HVM64
+    cr1.8xlarge:
+      Arch: HVM64
+    cc2.8xlarge:
+      Arch: HVM64
+  AWSRegionArch2AMI:
+    us-east-1:
+      HVM64: ami-0d5eff06f840b45e9   
+      HVMG2: ami-02354e95b39ca8dec
+    us-west-2:
+      HVM64: ami-077e31c4939f6a2f3
+      HVMG2: ami-0873b46c45c11058d
+    us-west-1:
+      HVM64: ami-0a1ef8665fe122a96
+      HVMG2: ami-05655c267c89566dd
+    eu-west-1:
+      HVM64: ami-06cd7f9c4486344a5
+      HVMG2: ami-07d9160fa81ccffb5
+    eu-west-2:
+      HVM64: ami-01ac84be28584498d
+      HVMG2: ami-0a13d44dccf1f5cf6
+    eu-west-3:
+      HVM64: ami-0a682c61cac068f2f
+      HVMG2: ami-093fa4c538885becf
+    eu-central-1:
+      HVM64: ami-05d403b512bf100eb
+      HVMG2: ami-0c115dbd34c69a004
+    eu-north-1:
+      HVM64: ami-0dd62557e4298551a
+      HVMG2: ami-039609244d2810a6b
+    ap-northeast-1:
+      HVM64: ami-0d1e3062992b86514
+      HVMG2: ami-0cc75a8978fbbc969
+    ap-northeast-2:
+      HVM64: ami-07a28b8671656c8c1
+      HVMG2: ami-0bd7691bf6470fe9c
+    ap-northeast-3:
+      HVM64: ami-0e740663443574970
+      HVMG2: ami-043bb1ed348aaf857
+    ap-southeast-1:
+      HVM64: ami-00c3854c1706a382f
+      HVMG2: ami-0cd31be676780afa7
+    ap-southeast-2:
+      HVM64: ami-09ba19d0563c3d553
+      HVMG2: ami-0ded330691a314693
+    ap-south-1:
+      HVM64: ami-0571d68822206714c
+      HVMG2: ami-0ebc1ac48dfd14136
+    us-east-2:
+      HVM64: ami-0f4665edc97a93bea
+      HVMG2: ami-07c8bc5c1ce9598c3
+    ca-central-1:
+      HVM64: ami-0a7c38a2574890e5c
+      HVMG2: ami-013d1df4bcea6ba95
+    sa-east-1:
+      HVM64: ami-0cd294bc0ed0be0e4
+      HVMG2: ami-018ccfb6b4745882a
+    cn-north-1:
+      HVM64: ami-053617c9d818c1189
+      HVMG2: NOT_SUPPORTED
+    cn-northwest-1:
+      HVM64: ami-0f7937761741dc640
+      HVMG2: NOT_SUPPORTED
+
+Resources: 
+  myEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs: 
+            VolumeSize: 8 
+            VolumeType: gp2 
+      SubnetId: !ImportValue PublicSubnetID0
+      KeyName: !Ref KeyName
+      DisableApiTermination: false
+      ImageId: !FindInMap 
+        - AWSRegionArch2AMI
+        - !Ref 'AWS::Region'
+        - !FindInMap 
+          - AWSInstanceType2Arch
+          - !Ref InstanceType
+          - Arch 
+      InstanceType: !Ref InstanceType
+      SecurityGroupIds: 
+        - !ImportValue PublicSGID
+      Tags:
+        - Key: Name 
+          Value: !Ref PubicInstanceName
+
+Outputs:
+  InstanceID:
+    Description: PublicIp of the Insatnce1
+    Value: !GetAtt 
+      - myEC2Instance
+      - PublicIp
+    Export: 
+      Name: PublicIpPInstance
+
+  PublicDnsName:
+    Description: PublicDns of the Insatnce1
+    Value: !GetAtt 
+      - myEC2Instance
+      - PublicDnsName
+    Export: 
+      Name: PublicDnsNamePInstance    
+     
