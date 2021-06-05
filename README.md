@@ -1,4 +1,4 @@
-# <center>Valaxy Assignment1</center>
+# <center> Valaxy Assignment1 </center>
 
 ![Screenshot (134)](https://user-images.githubusercontent.com/28533352/120897550-6933a480-c644-11eb-9d37-9f555938acef.png)
 
