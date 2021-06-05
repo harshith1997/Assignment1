@@ -35,6 +35,8 @@ By Default it will take this Input(Change accordingly)
 ##### Outputs
 ![Screenshot (137)](https://user-images.githubusercontent.com/28533352/120898385-4b683e80-c648-11eb-9443-b135d5446c27.png)
 
+---
+
 ### 2.SecurityGroupInPublic.yaml
 This stack will create 
 - **Security Group** 
@@ -51,6 +53,8 @@ By Default it will take this Input(Change accordingly)
 
 ##### Outputs
 ![Screenshot (140)](https://user-images.githubusercontent.com/28533352/120898821-4ad0a780-c64a-11eb-8460-67b299b13643.png)
+
+---
 
 ### 3.SecurityGroupInPrivate.yaml
 This stack will create 
@@ -69,6 +73,7 @@ By Default it will take this Input(Change accordingly)
 ##### Outputs
 ![Screenshot (143)](https://user-images.githubusercontent.com/28533352/120899029-48228200-c64b-11eb-8a76-a02bb38ceff4.png)
 
+---
 
 ### 4. Ec2InPublic.yaml
 This stack will create 
@@ -92,6 +97,8 @@ By Default it will take this Input(Change accordingly)
 ##### Outputs
 ![Screenshot (146)](https://user-images.githubusercontent.com/28533352/120899271-7d7b9f80-c64c-11eb-8b90-c953d5422b3d.png)
 
+---
+
 ### 5. Ec2InPrivate.yaml
 This stack will create 
 - **EC2 Instance**
@@ -112,6 +119,7 @@ By Default it will take this Input(Change accordingly)
 ##### Outputs
 ![Screenshot (150)](https://user-images.githubusercontent.com/28533352/120899387-1ad6d380-c64d-11eb-91a9-ca245b3eb4fd.png)
 
+---
 
 # Cloudformation Exports
 
@@ -121,6 +129,7 @@ By Default it will take this Input(Change accordingly)
 
 ![Screenshot (153)](https://user-images.githubusercontent.com/28533352/120899523-c08a4280-c64d-11eb-9b64-00e788b85a48.png)
 
+---
 
 Things to do After Stack Creation
 
