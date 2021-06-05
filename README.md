@@ -1,10 +1,10 @@
-# <center> Valaxy Assignment1 </center>
+# Valaxy Assignment1
 
 ![Screenshot (134)](https://user-images.githubusercontent.com/28533352/120897550-6933a480-c644-11eb-9d37-9f555938acef.png)
 
 Please create private EC2 instance with "t2.micro" type in AWS cloud and the required dependency resources to connect to the private EC2 server as per the architecture shown above.
 
-#<font color=blue> Solution</font>
+# Solution
 
 
 #### Cloudformation Stack
@@ -27,15 +27,15 @@ This stack will create
 - **Private Route Table** 
 - **Route Table Association to subnets** 
 
-##### <font color=DarkCyan> Input Parameters for the stack</font>
+#####  Input Parameters for the stack
 
 By Default it will take this Input(Change accordingly)
 ![Screenshot (135)](https://user-images.githubusercontent.com/28533352/120898014-c16ba600-c646-11eb-8e88-b149e58b552b.png)
 
-#####<font color=DarkCyan > Created Resources </font> 
+##### Created Resources  
 ![Screenshot (136)](https://user-images.githubusercontent.com/28533352/120898308-f5939680-c647-11eb-9211-f096bed6601f.png)
 
-##### <font color=DarkCyan>Outputs</font>
+##### Outputs
 ![Screenshot (137)](https://user-images.githubusercontent.com/28533352/120898385-4b683e80-c648-11eb-9443-b135d5446c27.png)
 
 ---
@@ -47,14 +47,14 @@ Security Group for Instances in **Public Subnet**
 
 Which allows **SSH** from Public Internet
 
-##### <font color=DarkCyan> Input Parameters for the stack </font>
+#####  Input Parameters for the stack 
 By Default it will take this Input(Change accordingly)
 ![Screenshot (138)](https://user-images.githubusercontent.com/28533352/120898776-093ffc80-c64a-11eb-80f0-bce1535e6a90.png)
 
-##### <font color=DarkCyan> Created Resources </font>
+#####  Created Resources 
 ![Screenshot (140)](https://user-images.githubusercontent.com/28533352/120898791-27a5f800-c64a-11eb-9f6b-e383615af998.png)
 
-##### <font color=DarkCyan> Outputs </font>
+#####  Outputs 
 ![Screenshot (140)](https://user-images.githubusercontent.com/28533352/120898821-4ad0a780-c64a-11eb-8460-67b299b13643.png)
 
 ---
@@ -66,14 +66,14 @@ Security Group for Instances in **Private Subnet**
 
 Which allows **SSH** only from Public Subnet Instance
 
-##### <font color=DarkCyan> Input Parameters for the stack </font>
+#####  Input Parameters for the stack 
 By Default it will take this Input(Change accordingly)
 ![Screenshot (142)](https://user-images.githubusercontent.com/28533352/120899010-2a551d00-c64b-11eb-95ab-f65aac05e6c5.png)
 
-##### <font color=DarkCyan> Created Resources </font>
+#####  Created Resources 
 ![Screenshot (142)](https://user-images.githubusercontent.com/28533352/120899021-3b059300-c64b-11eb-943e-e8c34cd30d1c.png)
 
-#####<font color=DarkCyan> Outputs</font>
+##### Outputs
 ![Screenshot (143)](https://user-images.githubusercontent.com/28533352/120899029-48228200-c64b-11eb-8a76-a02bb38ceff4.png)
 
 ---
@@ -90,14 +90,14 @@ Private IP
 PrivateDNS Name
 Security Group(Created using 2nd stack)
 
-##### <font color=DarkCyan> Input Parameters for the stack </font>
+#####  Input Parameters for the stack 
 By Default it will take this Input(Change accordingly)
 ![Screenshot (144)](https://user-images.githubusercontent.com/28533352/120899240-51f8b500-c64c-11eb-836a-7e843c093a1c.png)
 
-##### <font color=DarkCyan> Created Resources </font>
+#####  Created Resources 
 ![Screenshot (145)](https://user-images.githubusercontent.com/28533352/120899254-66d54880-c64c-11eb-98d2-e06eca0567fc.png)
 
-##### <font color=DarkCyan> Outputs </font>
+##### Outputs 
 ![Screenshot (146)](https://user-images.githubusercontent.com/28533352/120899271-7d7b9f80-c64c-11eb-8b90-c953d5422b3d.png)
 
 ---
@@ -112,14 +112,14 @@ Private IP
 PrivateDNS Name
 SecurityGroup(created using 3rd stack)
 
-##### <font color=DarkCyan>Input Parameters for the stack </font>
+##### Input Parameters for the stack 
 By Default it will take this Input(Change accordingly)
 ![Screenshot (148)](https://user-images.githubusercontent.com/28533352/120899340-e236fa00-c64c-11eb-90bd-990eb23b234b.png)
 
-##### <font color=DarkCyan> Created Resources </font>
+##### Created Resources 
 ![Screenshot (149)](https://user-images.githubusercontent.com/28533352/120899362-01358c00-c64d-11eb-9806-3de9b11ffcc3.png)
 
-##### <font color=DarkCyan> Outputs </font>
+#####  Outputs 
 ![Screenshot (150)](https://user-images.githubusercontent.com/28533352/120899387-1ad6d380-c64d-11eb-91a9-ca245b3eb4fd.png)
 
 ---
