@@ -1,6 +1,7 @@
 # Valaxy Assignment1
 
 ![Screenshot (134)](https://user-images.githubusercontent.com/28533352/120897550-6933a480-c644-11eb-9d37-9f555938acef.png)
+
 Please create private EC2 instance with "t2.micro" type in AWS cloud and the required dependency resources to connect to the private EC2 server as per the architecture shown above.
 
 ### Solution
