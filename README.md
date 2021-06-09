@@ -143,19 +143,8 @@ By Default it will take this Input(Change accordingly)
  sudo su
  chmod 0400 keypairname.pem
  ```
-4.Change PasswordAuthentication to **YES**
- ```
- sudo nano /etc/ssh/sshd_config
- 
- ```
 
-5. Restart Session
- ```
- sudo systemctl restart sshd
- ```
-6. Close Teminal 
-
-7. **SSH** into public Subnet
+4. **SSH** into public Subnet
 From **Public** instance **SSH** to the **Private** instance 
 
  ```
