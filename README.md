@@ -137,7 +137,9 @@ By Default it will take this Input(Change accordingly)
 ## Things to do After Stack Creation
 
 1.**SSH** into public Subnet
+
 2.Download KeyPair in **EC2**
+
 3.Change the permission of the **keypair**
  ```
  sudo su
